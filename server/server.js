@@ -1,27 +1,8 @@
-/*
-const express = require("express");
-
-const app = express();
-
-const PORT = 5000;
-
-// Route
-app.get("/", (req, res) => {
-  res.send("Backend is running");
-});
-
-// Start Server
-app.listen(PORT, () => {
-  {
-    console.log(`Server running on port ${PORT}`);
-  }
-});
-*/
-
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const noteRoutes = require("./routes/noteRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const connectDB = require("./config/db");
 
@@ -45,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/notes", noteRoutes);
+app.use("/api/auth", authRoutes);
 
 // Start Server
 app.listen(PORT, () => {
