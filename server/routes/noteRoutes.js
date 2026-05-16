@@ -1,5 +1,7 @@
 const express = require("express");
 
+const protect = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
 const {
@@ -10,15 +12,27 @@ const {
 } = require("../controllers/noteController");
 
 // CREATE NOTE
-router.post("/", createNote);
+router.post("/", protect, createNote);
 
 // GET NOTES
-router.get("/", getNotes);
+router.get("/", protect, getNotes);
 
 // UPDATE NOTE
-router.put("/:id", updateNote);
+router.put("/:id", protect, updateNote);
 
 // DELETE NOTE
-router.delete("/:id", deleteNote);
+router.delete("/:id", protect, deleteNote);
 
 module.exports = router;
+
+/*
+Request
+   ↓
+protect middleware
+   ↓
+JWT verification
+   ↓
+Route Controller
+   ↓
+Database
+*/
