@@ -1,9 +1,9 @@
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import DashboardPage from "./pages/DashboardPage";
+
 function App() {
-  return (
-    <div className="text-3xl font-bold text-center mt-20">
-      Notes App
-    </div>
-  );
+  return <DashboardPage />;
 }
 
 export default App;
