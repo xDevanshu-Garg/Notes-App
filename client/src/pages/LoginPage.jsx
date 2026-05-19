@@ -8,7 +8,16 @@ import { useEffect } from "react";
 
 
 function LoginPage() {
-  
+
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState("");
+
   // if user is logged in redirect to /
   useEffect(() => {
   
@@ -19,13 +28,6 @@ function LoginPage() {
     }
   
   }, []);
-
-  const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
 
 
   const handleChange = (e) => {
@@ -67,6 +69,10 @@ function LoginPage() {
         <h1 className="text-3xl font-bold mb-6 text-center">
           Login
         </h1>
+
+        {error && (
+          <p className="text-red-500 text-center mb-4">{error}</p>
+        )}
 
         <form
           onSubmit={handleSubmit}
