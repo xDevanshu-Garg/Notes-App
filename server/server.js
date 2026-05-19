@@ -19,6 +19,7 @@ app.use(cors({
     origin: "https://notely-1ojo8b6ld-devannshugarg-5359s-projects.vercel.app",
     credentials: true
 }));
+
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
