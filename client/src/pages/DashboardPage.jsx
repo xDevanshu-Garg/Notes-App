@@ -8,6 +8,7 @@ import {
   getNotes,
   createNote,
   deleteNote,
+  updateNote,
 } from "../services/noteService";
 
 
@@ -22,28 +23,43 @@ function DashboardPage() {
     content: "",
   });
 
+const [loading, setLoading] = useState(true);
+
+const [error, setError] = useState("");
+
 
   // Fetch notes on load
   useEffect(() => {
 
-    const fetchNotes = async () => {
+  const fetchNotes = async () => {
 
-      try {
+    try {
 
-        const data = await getNotes();
+      setLoading(true);
 
-        setNotes(data);
+      const data = await getNotes();
 
-      }
-      catch (error) {
-        console.log(error);
-      }
+      setNotes(data);
 
-    };
+      setError("");
 
-    fetchNotes();
+    }
+    catch (error) {
 
-  }, []);
+      setError("Failed to load notes");
+
+    }
+    finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
+  fetchNotes();
+
+}, []);
 
 
   const handleChange = (e) => {
@@ -96,6 +112,30 @@ function DashboardPage() {
 
   };
 
+ const handleEdit = async (id, updatedData) => {
+
+  try {
+
+    const updatedNote = await updateNote(
+      id,
+      updatedData
+    );
+
+    setNotes(
+      notes.map((note) =>
+        note._id === id ? updatedNote : note
+      )
+    );
+
+  }
+  catch (error) {
+
+    console.log(error);
+
+  }
+
+};
+
 
   const handleLogout = () => {
 
@@ -104,6 +144,14 @@ function DashboardPage() {
     navigate("/login");
 
   };
+
+  if (loading) {
+    return (
+      <div className="text-center mt-20 text-2xl">
+        Loading...
+      </div>
+    );
+  }
 
 
   return (
@@ -124,6 +172,11 @@ function DashboardPage() {
 
       </div>
 
+      {error && (
+        <p className="text-red-500 mb-4">
+          {error}
+        </p>
+      )}
 
       {/* Create Note Form */}
       <form
@@ -159,6 +212,12 @@ function DashboardPage() {
 
       {/* Notes List */}
       <div className="grid gap-4">
+        
+        {notes.length === 0 && (
+          <p className="text-gray-500 text-center mt-10 text-2xl">
+            No notes yet.
+          </p>
+        )}
 
         {notes.map((note) => (
 
@@ -166,6 +225,7 @@ function DashboardPage() {
             key={note._id}
             note={note}
             onDelete={handleDelete}
+            onEdit={handleEdit}
           />
 
         ))}

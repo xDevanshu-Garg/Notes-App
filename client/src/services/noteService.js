@@ -62,3 +62,15 @@ export const deleteNote = async (id) => {
 
     return response.data;
 };
+
+// UPDATE NOTE
+export const updateNote = async (id, noteData) => {
+
+    const response = await axios.put(
+        `${API_URL}/${id}`,
+        noteData,
+        getConfig()
+    );
+
+    return response.data;
+};
