@@ -16,10 +16,12 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: "https://notely-1ojo8b6ld-devannshugarg-5359s-projects.vercel.app",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+  origin: [
+    "http://localhost:5173",
+    "https://notely-1ojo8b6ld-devannshugarg-5359s-projects.vercel.app",
+    /\.vercel\.app$/   // allow all your Vercel preview deployments
+  ],
+  credentials: true
 }));
 
 app.use(express.json());
