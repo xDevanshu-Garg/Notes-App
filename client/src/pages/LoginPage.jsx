@@ -4,8 +4,21 @@ import { useNavigate } from "react-router-dom";
 
 import { loginUser } from "../services/authService";
 
+import { useEffect } from "react";
+
 
 function LoginPage() {
+  
+  // if user is logged in redirect to /
+  useEffect(() => {
+  
+    const userInfo = localStorage.getItem("userInfo");
+  
+    if (userInfo) {
+      navigate("/");
+    }
+  
+  }, []);
 
   const navigate = useNavigate();
 
@@ -40,7 +53,7 @@ function LoginPage() {
 
     }
     catch (error) {
-      console.log(error);
+      setError(error.response?.data?.message || "Something went wrong");
     }
 
   };
@@ -79,7 +92,7 @@ function LoginPage() {
           />
 
           <button
-            className="w-full bg-black text-white py-3 rounded"
+            className="w-full bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-white font-medium py-3 rounded-lg"
           >
             Login
           </button>

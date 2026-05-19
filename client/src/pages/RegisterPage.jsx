@@ -4,8 +4,20 @@ import { useNavigate } from "react-router-dom";
 
 import { registerUser } from "../services/authService";
 
+import { useEffect } from "react";
 
 function RegisterPage() {
+
+  // if user is registered redirect to /
+  useEffect(() => {
+
+  const userInfo = localStorage.getItem("userInfo");
+
+  if (userInfo) {
+    navigate("/");
+  }
+
+}, []);
 
   const navigate = useNavigate();
 
