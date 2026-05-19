@@ -17,7 +17,9 @@ const app = express();
 // Middleware
 app.use(cors({
     origin: "https://notely-1ojo8b6ld-devannshugarg-5359s-projects.vercel.app",
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
