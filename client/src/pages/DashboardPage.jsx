@@ -11,6 +11,7 @@ import {
   updateNote,
 } from "../services/noteService";
 
+import { logoutUser } from "../utils/auth";
 
 function DashboardPage() {
 
@@ -76,6 +77,11 @@ const [error, setError] = useState("");
 
     e.preventDefault();
 
+    // Validation
+    if (!formData.title || !formData.content) {
+      return;
+    }
+
     try {
 
       const newNote = await createNote(formData);
@@ -139,7 +145,7 @@ const [error, setError] = useState("");
 
   const handleLogout = () => {
 
-    localStorage.removeItem("userInfo");
+    logoutUser();
 
     navigate("/login");
 
@@ -165,7 +171,8 @@ const [error, setError] = useState("");
 
         <button
           onClick={handleLogout}
-          className="bg-black text-white px-4 py-2 rounded"
+          className="bg-black hover:bg-gray-600
+  transition text-white px-4 py-2 rounded"
         >
           Logout
         </button>
@@ -202,7 +209,8 @@ const [error, setError] = useState("");
         />
 
         <button
-          className="bg-blue-500 text-white px-6 py-3 rounded"
+          className="bg-blue-500 hover:bg-blue-600
+  transition text-white px-6 py-3 rounded"
         >
           Add Note
         </button>
@@ -214,9 +222,17 @@ const [error, setError] = useState("");
       <div className="grid gap-4">
         
         {notes.length === 0 && (
-          <p className="text-gray-500 text-center mt-10 text-2xl">
-            No notes yet.
-          </p>
+          <div className="text-center py-10 border rounded-lg">
+
+            <h2 className="text-2xl font-semibold mb-2">
+              No Notes Yet
+            </h2>
+
+            <p className="text-gray-500">
+              Create your first note above.
+            </p>
+
+          </div>
         )}
 
         {notes.map((note) => (

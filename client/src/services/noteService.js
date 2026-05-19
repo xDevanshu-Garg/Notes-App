@@ -1,17 +1,16 @@
 import axios from "axios";
 
+import { getUserInfo } from "../utils/auth";
 
-const API_URL = "http://localhost:5000/api/notes";
+const API_URL = `${import.meta.env.VITE_API_URL}/notes`;
 
 
 // Get token from localStorage
 const getToken = () => {
 
-    const userInfo = JSON.parse(
-        localStorage.getItem("userInfo")
-    );
+    const userInfo = getUserInfo();
 
-    return userInfo.token;
+    return userInfo?.token;
 };
 
 
