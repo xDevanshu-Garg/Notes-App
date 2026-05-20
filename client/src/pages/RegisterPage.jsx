@@ -8,17 +8,6 @@ import { useEffect } from "react";
 
 function RegisterPage() {
 
-  // if user is registered redirect to /
-  useEffect(() => {
-
-  const userInfo = localStorage.getItem("userInfo");
-
-  if (userInfo) {
-    navigate("/");
-  }
-
-}, []);
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -26,6 +15,21 @@ function RegisterPage() {
     email: "",
     password: "",
   });
+
+  const [error, setError] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  // if user is registered redirect to /
+  useEffect(() => {
+
+    const userInfo = localStorage.getItem("userInfo");
+
+    if (userInfo) {
+      navigate("/");
+    }
+
+  }, []);
 
 
   const handleChange = (e) => {
@@ -42,6 +46,9 @@ function RegisterPage() {
 
     e.preventDefault();
 
+    setError("");
+    setLoading(true);
+
     try {
 
       const data = await registerUser(formData);
@@ -55,7 +62,10 @@ function RegisterPage() {
 
     }
     catch (error) {
-      console.log(error);
+      setError(error.response?.data?.message || "Something went wrong");
+    }
+    finally {
+      setLoading(false);
     }
 
   };
@@ -70,6 +80,10 @@ function RegisterPage() {
           Register
         </h1>
 
+        {error && (
+          <p className="text-red-500 text-center mb-4">{error}</p>
+        )}
+
         <form
           onSubmit={handleSubmit}
           className="space-y-4"
@@ -82,6 +96,7 @@ function RegisterPage() {
             value={formData.name}
             onChange={handleChange}
             className="w-full border p-3 rounded"
+            disabled={loading}
           />
 
           <input
@@ -91,6 +106,7 @@ function RegisterPage() {
             value={formData.email}
             onChange={handleChange}
             className="w-full border p-3 rounded"
+            disabled={loading}
           />
 
           <input
@@ -100,15 +116,23 @@ function RegisterPage() {
             value={formData.password}
             onChange={handleChange}
             className="w-full border p-3 rounded"
+            disabled={loading}
           />
 
           <button
-            className="w-full bg-black text-white py-3 rounded"
+            disabled={loading}
+            className="w-full bg-black text-white py-3 rounded hover:bg-gray-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Register
+            {loading ? "Connecting to server..." : "Register"}
           </button>
 
         </form>
+
+        {loading && (
+          <p className="text-gray-500 text-sm text-center mt-3">
+            Server may take up to a minute to wake up on first visit.
+          </p>
+        )}
 
       </div>
 

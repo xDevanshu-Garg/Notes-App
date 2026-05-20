@@ -18,8 +18,7 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://notely-1ojo8b6ld-devannshugarg-5359s-projects.vercel.app",
-    /\.vercel\.app$/   // allow all your Vercel preview deployments
+    /\.vercel\.app$/
   ],
   credentials: true
 }));
@@ -38,7 +37,5 @@ app.use("/api/auth", authRoutes);
 
 // Start Server
 app.listen(PORT, () => {
-  {
-    console.log(`Server running on port ${PORT}`);
-  }
+  console.log(`Server running on port ${PORT}`);
 });

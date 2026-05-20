@@ -18,6 +18,8 @@ function LoginPage() {
 
   const [error, setError] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   // if user is logged in redirect to /
   useEffect(() => {
   
@@ -40,7 +42,10 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
 
-    e.preventDefault(); // Stops page reload on form submit
+    e.preventDefault();
+
+    setError("");
+    setLoading(true);
 
     try {
 
@@ -56,6 +61,9 @@ function LoginPage() {
     }
     catch (error) {
       setError(error.response?.data?.message || "Something went wrong");
+    }
+    finally {
+      setLoading(false);
     }
 
   };
@@ -86,6 +94,7 @@ function LoginPage() {
             value={formData.email}
             onChange={handleChange}
             className="w-full border p-3 rounded"
+            disabled={loading}
           />
 
           <input
@@ -95,15 +104,23 @@ function LoginPage() {
             value={formData.password}
             onChange={handleChange}
             className="w-full border p-3 rounded"
+            disabled={loading}
           />
 
           <button
-            className="w-full bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-white font-medium py-3 rounded-lg"
+            disabled={loading}
+            className="w-full bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-white font-medium py-3 rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Login
+            {loading ? "Connecting to server..." : "Login"}
           </button>
 
         </form>
+
+        {loading && (
+          <p className="text-gray-500 text-sm text-center mt-3">
+            Server may take up to a minute to wake up on first visit.
+          </p>
+        )}
 
       </div>
 

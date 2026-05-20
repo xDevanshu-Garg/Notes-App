@@ -23,7 +23,7 @@ const createNote = async (req, res) => {
 // GET NOTES
 const getNotes = async (req, res) => {
   try {
-    const notes = await Note.find({user: req.user._id}).sort({ createdAt: -1 });
+    const notes = await Note.find({ user: req.user._id }).sort({ createdAt: -1 });
 
     // 200 => request successful(perfect for GET)
     res.status(200).json(notes);

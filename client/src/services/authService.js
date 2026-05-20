@@ -19,7 +19,7 @@ export const loginUser = async (userData) => {
         `${API_URL}/login`,
         userData
     );
-    
+
     return response.data;
 };
 

@@ -1,114 +1,88 @@
-# CipherNotes
+# Notely
 
-A secure full-stack note-taking application built using the MERN stack with JWT authentication, protected routes, and encrypted note architecture planning.
+A full-stack note-taking app with user authentication, built with the MERN stack. Each user gets their own private workspace to create, edit, and delete notes — secured with JWT-based auth and protected API routes.
 
-## Live Demo
-[Live Link Here]
+🔗 **Live:** [notely-devansh.vercel.app](https://notely-devansh.vercel.app)
+
+> **Note:** The backend is hosted on Render's free tier, so the first request may take ~30s to wake up.
 
 ## Features
 
-- User Authentication (JWT)
-- Protected Routes
-- Create, Edit, Delete Notes
-- Persistent Login Sessions
-- Responsive Dashboard UI
-- Loading & Error States
-- REST API Architecture
-- MongoDB Database Integration
-- Secure Backend Middleware
+- **Authentication** — Register & login with hashed passwords (bcrypt) and JWT tokens
+- **Protected Routes** — Both frontend routes and API endpoints are guarded
+- **CRUD Operations** — Create, read, update, and delete notes
+- **User Isolation** — Each user can only access their own notes
+- **Persistent Sessions** — Stay logged in across browser sessions via localStorage
+- **Loading & Error States** — Graceful handling of slow connections and failures
+- **Responsive UI** — Works on desktop and mobile
 
 ## Tech Stack
 
-### Frontend
-- React
-- React Router
-- Tailwind CSS
-- Axios
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React, React Router, Tailwind CSS, Axios, Vite |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas, Mongoose |
+| Auth | JWT, bcrypt.js |
+| Deployment | Vercel (frontend), Render (backend) |
 
-### Backend
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
-- bcrypt.js
+## Project Structure
 
----
-
-## Folder Structure
-
-```txt
-frontend/
-backend/
+```
+client/                → React frontend
+├── src/
+│   ├── components/    → Reusable UI components (NoteCard)
+│   ├── pages/         → Login, Register, Dashboard
+│   ├── services/      → API calls (auth, notes)
+│   ├── routes/        → Protected route wrapper
+│   └── utils/         → Auth helpers
+│
+server/                → Express backend
+├── config/            → Database connection
+├── controllers/       → Route handlers (auth, notes)
+├── middleware/        → JWT authentication middleware
+├── models/            → Mongoose schemas (User, Note)
+├── routes/            → API route definitions
+└── utils/             → Token generation
 ```
 
----
+## API Endpoints
 
-## Installation
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/api/auth/register` | No | Create a new account |
+| POST | `/api/auth/login` | No | Login and receive JWT |
+| GET | `/api/notes` | Yes | Get all notes for logged-in user |
+| POST | `/api/notes` | Yes | Create a new note |
+| PUT | `/api/notes/:id` | Yes | Update a note (owner only) |
+| DELETE | `/api/notes/:id` | Yes | Delete a note (owner only) |
 
-### Clone Repository
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- MongoDB Atlas account (or local MongoDB)
+
+### Setup
 
 ```bash
-git clone <repo-link>
-```
+# Clone the repo
+git clone https://github.com/xDevanshu-Garg/Notes-App.git
+cd Notes-App
 
-### Backend Setup
-
-```bash
-cd backend
+# Backend
+cd server
 npm install
+# Create .env with: PORT, MONGO_URI, JWT_SECRET
+npm run dev
+
+# Frontend (new terminal)
+cd client
+npm install
+# Create .env with: VITE_API_URL=http://localhost:5000/api
 npm run dev
 ```
-
-### Frontend Setup
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
----
-
-## Environment Variables
-
-### Backend `.env`
-
-```env
-PORT=5000
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_secret
-```
-
-### Frontend `.env`
-
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
----
-
-## Screenshots
-
-(Add screenshots here later)
-
----
-
-## Future Improvements
-
-- End-to-End Note Encryption
-- Markdown Editor
-- Export Notes as PDF
-- Dark Mode
-- Search & Filters
-- Pinned Notes
-- Real-Time Sync
-
----
 
 ## Author
 
-Devanshu Garg
-
-- GitHub: https://github.com/xDevanshu-Garg
-- LinkedIn: https://www.linkedin.com/in/devanshu-garg-ecaajmer/
+**Devanshu Garg** — [GitHub](https://github.com/xDevanshu-Garg) · [LinkedIn](https://www.linkedin.com/in/devanshu-garg-ecaajmer/)
